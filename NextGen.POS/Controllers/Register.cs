@@ -5,17 +5,16 @@ namespace NextGen.POS.Controllers
 {
     public class Register
     {
-        private ProductCatalog _productCatalog;
-        private CustomerCatalog _customerCatalog;
+        private readonly ProductCatalog _productCatalog;
+        private readonly CustomerCatalog _customerCatalog;
         private Sale _currentSale;
-        private Moms _moms;
+        private readonly Moms _moms;
 
         public Register(ProductCatalog productCatalog, CustomerCatalog customerCatalog)
         {
             _productCatalog = productCatalog;
             _customerCatalog = customerCatalog;
             _moms = new Moms(0.25);
-
         }
 
         public void EndSale()
@@ -25,8 +24,7 @@ namespace NextGen.POS.Controllers
 
         public void EnterItem(int id, int quantity)
         {
-            ProductDescription desc = _productCatalog.GetProductDescription(id);
-
+            var desc = _productCatalog.GetProductDescription(id);
             _currentSale.MakeLineItem(desc, quantity);
         }
 
@@ -47,24 +45,29 @@ namespace NextGen.POS.Controllers
 
         public void Print()
         {
-            Console.WriteLine("Bill:");
+            var currentSale = _currentSale;
+            var customerDescription = currentSale.CustomerDescription;
+
+            Console.WriteLine("Faktura:");
             Console.WriteLine("====================================");
-            Console.WriteLine($"Kundenummer: {_currentSale.CustomerDescription.Kundenummer}");
-            Console.WriteLine($"Kundenavn: {_currentSale.CustomerDescription.Navn}");
-            Console.WriteLine($"Rabatsats: {_currentSale.CustomerDescription.Rabatsats}");
+            Console.WriteLine($"Kundenummer: {customerDescription.Kundenummer}");
+            Console.WriteLine($"Kundenavn: {customerDescription.Navn}");
+            Console.WriteLine($"Rabatsats: {customerDescription.Rabatsats}");
             Console.WriteLine("====================================");
-            foreach (var item in _currentSale.LineItems)
+
+            foreach (var item in currentSale.LineItems)
             {
                 Console.WriteLine($"{item.ProductDescription.Description} x{item.Quantity} @ {item.ProductDescription.Price:C} = {item.GetSubtotal():C}");
             }
+
             Console.WriteLine("====================================");
-            Console.WriteLine($"Total: {_currentSale.GetTotal():C}");
-            Console.WriteLine($"Discount: {_currentSale.GetDiscountAmount():C}");
-            Console.WriteLine($"Total with discount: {_currentSale.GetTotalWithDiscount():C}");
-            Console.WriteLine($"Moms: {_currentSale.GetMoms():C}");
-            Console.WriteLine($"Total with Moms: {_currentSale.GetTotalWithMoms():C}");
-            Console.WriteLine($"Payment: {_currentSale.Payment.Amount:C}");
-            Console.WriteLine($"Balance: {_currentSale.Balance:C}");
+            Console.WriteLine($"Total: {currentSale.GetTotal():C}");
+            Console.WriteLine($"Discount: {currentSale.GetDiscountAmount():C}");
+            Console.WriteLine($"Total with discount: {currentSale.GetTotalWithDiscount():C}");
+            Console.WriteLine($"Moms: {currentSale.GetMoms():C}");
+            Console.WriteLine($"Total with Moms: {currentSale.GetTotalWithMoms():C}");
+            Console.WriteLine($"Payment: {currentSale.Payment.Amount:C}");
+            Console.WriteLine($"Balance: {currentSale.Balance:C}");
             Console.WriteLine("====================================");
         }
     }

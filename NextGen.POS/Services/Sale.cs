@@ -4,12 +4,12 @@ namespace NextGen.POS.Services
 {
     public class Sale
     {
-        private List<SalesLineItem> _lineItems = new List<SalesLineItem>();
+        private readonly List<SalesLineItem> _lineItems = new List<SalesLineItem>();
         private bool _isComplete = false;
         private Payment _payment;
-        private CustomerDescription _customerDescription;
-        private Moms _moms;
-        private double _total;
+        private readonly CustomerDescription _customerDescription;
+        private readonly Moms _moms;
+        private double? _total = null;
 
         public IReadOnlyList<SalesLineItem> LineItems => _lineItems;
 
@@ -43,23 +43,26 @@ namespace NextGen.POS.Services
         public void MakeLineItem(ProductDescription pdesc, int quantity)
         {
             _lineItems.Add(new SalesLineItem(pdesc, quantity));
+            _total = null;
         }
 
         public double GetTotal()
         {
-            double total = 0;
-
-            for (int i = 0; i < _lineItems.Count; i++)
+            if (_total == null)
             {
-                total += _lineItems[i].GetSubtotal();
+                double total = 0;
+                for (int i = 0; i < _lineItems.Count; i++)
+                {
+                    total += _lineItems[i].GetSubtotal();
+                }
+                _total = total;
             }
-
-            return total;
+            return _total.Value;
         }
 
         public double GetTotalWithDiscount()
         {
-            return GetTotal() - (GetTotal() * _customerDescription.Rabatsats); ;
+            return GetTotal() * (1 - _customerDescription.Rabatsats);
         }
 
         public double GetMoms()

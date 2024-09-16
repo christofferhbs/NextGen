@@ -4,17 +4,13 @@ namespace NextGen.POS.Models
 {
     public class Store
     {
-        private ProductCatalog _productCatalog = new ProductCatalog();
-        private CustomerCatalog _customerCatalog = new CustomerCatalog();
-        private Register _register;
-
-        public ProductCatalog ProductCatalog { get { return _productCatalog; } }
-        public CustomerCatalog CustomerCatalog { get { return _customerCatalog; } }
-        public Register Register { get { return _register; } }
+        public ProductCatalog ProductCatalog { get; } = new ProductCatalog();
+        public CustomerCatalog CustomerCatalog { get; } = new CustomerCatalog();
+        public Register Register { get; }
 
         public Store()
         {
-            _register = new Register(_productCatalog, _customerCatalog);
+            Register = new Register(ProductCatalog, CustomerCatalog);
         }
     }
 }

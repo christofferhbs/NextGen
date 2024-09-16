@@ -16,7 +16,7 @@
 
         public double CalculateTotalWithMoms(double amount)
         {
-            return amount + CalculateMoms(amount);
+            return amount * (1 + Rate); // 1 + 0.25 = 1.25
         }
     }
 }
