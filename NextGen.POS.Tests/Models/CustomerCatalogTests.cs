@@ -23,12 +23,12 @@ namespace NextGen.POS.Tests.Models
             Assert.IsNotNull(customer100);
             Assert.AreEqual(100, customer100.Kundenummer);
             Assert.AreEqual("Navn Et", customer100.Navn);
-            Assert.AreEqual(10, customer100.Rabatsats);
+            Assert.AreEqual(0.1, customer100.Rabatsats);
 
             Assert.IsNotNull(customer200);
             Assert.AreEqual(200, customer200.Kundenummer);
             Assert.AreEqual("Navn To", customer200.Navn);
-            Assert.AreEqual(10, customer200.Rabatsats);
+            Assert.AreEqual(0.0, customer200.Rabatsats);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NextGen.POS.Tests.Models
             Assert.IsNotNull(customer);
             Assert.AreEqual(100, customer.Kundenummer);
             Assert.AreEqual("Navn Et", customer.Navn);
-            Assert.AreEqual(10, customer.Rabatsats);
+            Assert.AreEqual(0.1, customer.Rabatsats);
         }
 
         [Test]

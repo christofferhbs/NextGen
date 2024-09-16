@@ -25,7 +25,7 @@ namespace NextGen.POS.Services
             set => _payment = value;
         }
 
-        public double Balance => _payment.Amount - GetTotal();
+        public double Balance => _payment.Amount - GetTotalWithMoms();
 
         public CustomerDescription CustomerDescription => _customerDescription;
 
@@ -43,7 +43,7 @@ namespace NextGen.POS.Services
         public void MakeLineItem(ProductDescription pdesc, int quantity)
         {
             _lineItems.Add(new SalesLineItem(pdesc, quantity));
-            _total = null;
+            _total = null; // Reset total
         }
 
         public double GetTotal()

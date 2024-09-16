@@ -8,16 +8,14 @@ namespace NextGen.POS.Tests.Controllers
     [TestFixture]
     public class RegisterTests
     {
+        private Store _store;
         private Register _register;
-        private ProductCatalog _productCatalog;
-        private CustomerCatalog _customerCatalog;
 
         [SetUp]
         public void Setup()
         {
-            _productCatalog = new ProductCatalog();
-            _customerCatalog = new CustomerCatalog();
-            _register = new Register(_productCatalog, _customerCatalog);
+            _store = new Store();
+            _register = _store.Register;
         }
 
         [Test]
@@ -41,10 +39,11 @@ namespace NextGen.POS.Tests.Controllers
             _register.MakeNewSale(customerDescription);
 
             // Act
-            _register.EnterItem(1, 2);
+            _register.EnterItem(100, 2);
 
             // Assert
-            var currentSale = (Sale)_register.GetType().GetField("_currentSale", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(_register);
+            var currentSale = _register.GetType().GetField("_currentSale", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(_register) as Sale;
+            Assert.NotNull(currentSale);
             Assert.AreEqual(1, currentSale.LineItems.Count);
             Assert.AreEqual(2, currentSale.LineItems[0].Quantity);
         }
@@ -89,7 +88,7 @@ namespace NextGen.POS.Tests.Controllers
             Assert.IsNotNull(customer);
             Assert.AreEqual(100, customer.Kundenummer);
             Assert.AreEqual("Navn Et", customer.Navn);
-            Assert.AreEqual(10, customer.Rabatsats);
+            Assert.AreEqual(0.1, customer.Rabatsats);
         }
     }
 }

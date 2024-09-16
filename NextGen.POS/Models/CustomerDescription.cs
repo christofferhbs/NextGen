@@ -10,7 +10,7 @@
         {
             Kundenummer = kundenummer;
             Navn = navn;
-            Rabatsats = rabatsats;
+            Rabatsats = rabatsats; // 0.25 = 25%
         }
     }
 }

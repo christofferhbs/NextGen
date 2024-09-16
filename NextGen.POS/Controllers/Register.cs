@@ -14,7 +14,7 @@ namespace NextGen.POS.Controllers
         {
             _productCatalog = productCatalog;
             _customerCatalog = customerCatalog;
-            _moms = new Moms(0.25);
+            _moms = new Moms(0.25); // 25%
         }
 
         public void EndSale()

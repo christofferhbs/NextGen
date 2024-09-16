@@ -9,8 +9,8 @@
             // Add sample data
             _descriptions = new Dictionary<int, CustomerDescription>
             {
-                { 100, new CustomerDescription(100, "Navn Et", 10) },
-                { 200, new CustomerDescription(200, "Navn To", 10) }
+                { 100, new CustomerDescription(100, "Navn Et", 0.1) },
+                { 200, new CustomerDescription(200, "Navn To", 0.0) }
             };
         }
 
