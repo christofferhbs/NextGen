@@ -62,7 +62,8 @@ namespace NextGen.POS.Services
 
         public double GetTotalWithDiscount()
         {
-            return GetTotal() * (1 - _customerDescription.Rabatsats);
+            double totalWithDiscount = GetTotal() * (1 - _customerDescription.Rabatsats);
+            return totalWithDiscount >= 0 ? totalWithDiscount : 0; // Return 0 if totalWithDiscount is negative
         }
 
         public double GetMoms()
@@ -72,12 +73,13 @@ namespace NextGen.POS.Services
 
         public double GetDiscountAmount()
         {
-            return GetTotal() * _customerDescription.Rabatsats;
+            double discountAmount = GetTotal() * _customerDescription.Rabatsats;
+            return discountAmount >= 0 ? discountAmount : 0; // Return 0 if discountAmount is negative
         }
 
         public double GetTotalWithMoms()
         {
-            return GetTotal() + _moms.CalculateMoms(GetTotal());
+            return _moms.CalculateTotalWithMoms(GetTotal());
         }
 
         public void MakePayment(double cashTendered)
