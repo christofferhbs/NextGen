@@ -43,7 +43,7 @@ namespace NextGen.POS.Controllers
             return _customerCatalog.GetCustomerDescription(cno);
         }
 
-        public void Print()
+        public void PrintRegning()
         {
             var currentSale = _currentSale;
             var customerDescription = currentSale.CustomerDescription;
@@ -57,7 +57,9 @@ namespace NextGen.POS.Controllers
 
             foreach (var item in currentSale.LineItems)
             {
-                Console.WriteLine($"{item.ProductDescription.Description} x{item.Quantity} @ {item.ProductDescription.Price:C} = {item.GetSubtotal():C}");
+                Console.WriteLine(
+                    $"{item.ProductDescription.Description} x{item.Quantity} @ {item.ProductDescription.Price:C} = {item.GetSubtotal():C}"
+                );
             }
 
             Console.WriteLine("====================================");

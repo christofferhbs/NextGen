@@ -27,7 +27,7 @@ namespace NextGen.POS
             register.MakePayment(10.0); // Customer pays $10.00
 
             // Print the bill
-            register.Print();
+            register.PrintRegning();
         }
     }
 }
